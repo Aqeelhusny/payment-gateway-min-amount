@@ -1,4 +1,4 @@
-=== Payment Gateway Minimum Amount ===
+=== Irix Gateway Limits for WooCommerce ===
 Contributors:      aqeelhusny
 Tags:              woocommerce, payment gateway, minimum order, cart
 Requires at least: 6.0
@@ -26,7 +26,7 @@ This plugin lets store owners set a minimum cart total (after coupon discounts) 
 
 == Installation ==
 
-1. Upload the `payment-gateway-min-amount` folder to `/wp-content/plugins/`
+1. Upload the `irix-gateway-limits-for-woocommerce` folder to `/wp-content/plugins/`
 2. Activate the plugin through the **Plugins** menu in WordPress
 3. Go to **WooCommerce > Gateway Limits** to configure minimums
 
