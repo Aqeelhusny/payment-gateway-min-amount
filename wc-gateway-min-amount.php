@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: WC Gateway Minimum Amount
+ * Plugin Name: Payment Gateway Minimum Amount
  * Plugin URI:  https://irixsolutions.net
  * Description: Restrict WooCommerce payment gateways by minimum cart total. Configure per-gateway minimums from WooCommerce > Gateway Limits.
  * Version:     1.0.0
