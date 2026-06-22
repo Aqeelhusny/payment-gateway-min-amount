@@ -25,7 +25,7 @@ This plugin lets store owners set a minimum cart total (after coupon discounts) 
 
 == Installation ==
 
-1. Upload the `wc-gateway-min-amount` folder to `/wp-content/plugins/`
+1. Upload the `payment-gateway-min-amount` folder to `/wp-content/plugins/`
 2. Activate the plugin through the **Plugins** menu in WordPress
 3. Go to **WooCommerce > Gateway Limits** to configure minimums
 

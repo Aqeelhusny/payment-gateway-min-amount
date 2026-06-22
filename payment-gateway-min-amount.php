@@ -5,7 +5,7 @@
  * Description: Restrict WooCommerce payment gateways by minimum cart total. Configure per-gateway minimums from WooCommerce > Gateway Limits.
  * Version:     1.0.0
  * Author:      Aqeel Husny
- * Text Domain: wc-gateway-min-amount
+ * Text Domain: payment-gateway-min-amount
  * License:      GPL v2 or later
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 6.0
@@ -72,15 +72,15 @@ final class WC_Gateway_Min_Amount {
 
 	public function notice_woocommerce_missing(): void {
 		echo '<div class="notice notice-error"><p>'
-			. esc_html__( 'WC Gateway Minimum Amount requires WooCommerce to be active.', 'wc-gateway-min-amount' )
+			. esc_html__( 'Payment Gateway Minimum Amount requires WooCommerce to be active.', 'payment-gateway-min-amount' )
 			. '</p></div>';
 	}
 
 	public function register_menu(): void {
 		add_submenu_page(
 			'woocommerce',
-			__( 'Gateway Limits', 'wc-gateway-min-amount' ),
-			__( 'Gateway Limits', 'wc-gateway-min-amount' ),
+			__( 'Gateway Limits', 'payment-gateway-min-amount' ),
+			__( 'Gateway Limits', 'payment-gateway-min-amount' ),
 			'manage_woocommerce',
 			'wcgma-settings',
 			[ $this, 'render_settings_page' ]
@@ -97,14 +97,14 @@ final class WC_Gateway_Min_Amount {
 		$currency = get_woocommerce_currency_symbol();
 		?>
 		<div class="wrap wcgma-wrap">
-			<h1 class="wp-heading-inline"><?php esc_html_e( 'Payment Gateway Limits', 'wc-gateway-min-amount' ); ?></h1>
+			<h1 class="wp-heading-inline"><?php esc_html_e( 'Payment Gateway Limits', 'payment-gateway-min-amount' ); ?></h1>
 			<p class="wcgma-description">
-				<?php esc_html_e( 'Set a minimum cart subtotal for each gateway. Leave blank (or 0) for no minimum. Only gateways enabled inside WooCommerce → Payments are shown here.', 'wc-gateway-min-amount' ); ?>
+				<?php esc_html_e( 'Set a minimum cart subtotal for each gateway. Leave blank (or 0) for no minimum. Only gateways enabled inside WooCommerce → Payments are shown here.', 'payment-gateway-min-amount' ); ?>
 			</p>
 
 			<?php if ( isset( $_GET['updated'] ) && current_user_can( 'manage_woocommerce' ) ) : // phpcs:ignore WordPress.Security.NonceVerification ?>
 				<div class="notice notice-success is-dismissible">
-					<p><?php esc_html_e( 'Settings saved successfully.', 'wc-gateway-min-amount' ); ?></p>
+					<p><?php esc_html_e( 'Settings saved successfully.', 'payment-gateway-min-amount' ); ?></p>
 				</div>
 			<?php endif; ?>
 
@@ -115,18 +115,18 @@ final class WC_Gateway_Min_Amount {
 				<table class="wp-list-table widefat fixed striped wcgma-table">
 					<thead>
 						<tr>
-							<th class="col-gateway"><?php esc_html_e( 'Payment Gateway', 'wc-gateway-min-amount' ); ?></th>
-							<th class="col-id"><?php esc_html_e( 'Gateway ID', 'wc-gateway-min-amount' ); ?></th>
-							<th class="col-status"><?php esc_html_e( 'Status', 'wc-gateway-min-amount' ); ?></th>
-							<th class="col-min"><?php esc_html_e( 'Minimum Cart Amount', 'wc-gateway-min-amount' ); ?></th>
-							<th class="col-notice"><?php esc_html_e( 'Customer Notice', 'wc-gateway-min-amount' ); ?></th>
+							<th class="col-gateway"><?php esc_html_e( 'Payment Gateway', 'payment-gateway-min-amount' ); ?></th>
+							<th class="col-id"><?php esc_html_e( 'Gateway ID', 'payment-gateway-min-amount' ); ?></th>
+							<th class="col-status"><?php esc_html_e( 'Status', 'payment-gateway-min-amount' ); ?></th>
+							<th class="col-min"><?php esc_html_e( 'Minimum Cart Amount', 'payment-gateway-min-amount' ); ?></th>
+							<th class="col-notice"><?php esc_html_e( 'Customer Notice', 'payment-gateway-min-amount' ); ?></th>
 						</tr>
 					</thead>
 					<tbody>
 						<?php if ( empty( $gateways ) ) : ?>
 							<tr>
 								<td colspan="5">
-									<?php esc_html_e( 'No payment gateways are registered. Please configure gateways in WooCommerce → Payments.', 'wc-gateway-min-amount' ); ?>
+									<?php esc_html_e( 'No payment gateways are registered. Please configure gateways in WooCommerce → Payments.', 'payment-gateway-min-amount' ); ?>
 								</td>
 							</tr>
 						<?php else : ?>
@@ -144,9 +144,9 @@ final class WC_Gateway_Min_Amount {
 								</td>
 								<td class="col-status">
 									<?php if ( $active ) : ?>
-										<span class="wcgma-badge wcgma-badge--active"><?php esc_html_e( 'Enabled', 'wc-gateway-min-amount' ); ?></span>
+										<span class="wcgma-badge wcgma-badge--active"><?php esc_html_e( 'Enabled', 'payment-gateway-min-amount' ); ?></span>
 									<?php else : ?>
-										<span class="wcgma-badge wcgma-badge--inactive"><?php esc_html_e( 'Disabled', 'wc-gateway-min-amount' ); ?></span>
+										<span class="wcgma-badge wcgma-badge--inactive"><?php esc_html_e( 'Disabled', 'payment-gateway-min-amount' ); ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="col-min">
@@ -168,11 +168,11 @@ final class WC_Gateway_Min_Amount {
 										type="text"
 										name="wcgma_limits[<?php echo esc_attr( $id ); ?>][notice]"
 										value="<?php echo esc_attr( $notice ); ?>"
-										placeholder="<?php esc_attr_e( 'Minimum order is {min} for this method.', 'wc-gateway-min-amount' ); ?>"
+										placeholder="<?php esc_attr_e( 'Minimum order is {min} for this method.', 'payment-gateway-min-amount' ); ?>"
 										class="wcgma-input-notice regular-text"
 									>
 									<p class="description">
-										<?php esc_html_e( 'Use {min} to insert the formatted minimum amount.', 'wc-gateway-min-amount' ); ?>
+										<?php esc_html_e( 'Use {min} to insert the formatted minimum amount.', 'payment-gateway-min-amount' ); ?>
 									</p>
 								</td>
 							</tr>
@@ -182,7 +182,7 @@ final class WC_Gateway_Min_Amount {
 				</table>
 
 				<p class="submit">
-					<?php submit_button( __( 'Save Settings', 'wc-gateway-min-amount' ), 'primary', 'submit', false ); ?>
+					<?php submit_button( __( 'Save Settings', 'payment-gateway-min-amount' ), 'primary', 'submit', false ); ?>
 				</p>
 			</form>
 		</div>
@@ -191,7 +191,7 @@ final class WC_Gateway_Min_Amount {
 
 	public function handle_save(): void {
 		if ( ! current_user_can( 'manage_woocommerce' ) ) {
-			wp_die( esc_html__( 'Unauthorized.', 'wc-gateway-min-amount' ), 403 );
+			wp_die( esc_html__( 'Unauthorized.', 'payment-gateway-min-amount' ), 403 );
 		}
 
 		check_admin_referer( 'wcgma_save_settings', 'wcgma_nonce' );
@@ -303,7 +303,7 @@ final class WC_Gateway_Min_Amount {
 			} else {
 				$messages[] = sprintf(
 					/* translators: 1: gateway name, 2: formatted minimum amount */
-					'<strong>%1$s</strong> ' . esc_html__( 'requires a minimum cart total of %2$s.', 'wc-gateway-min-amount' ),
+					'<strong>%1$s</strong> ' . esc_html__( 'requires a minimum cart total of %2$s.', 'payment-gateway-min-amount' ),
 					$title,
 					$min_formatted
 				);
@@ -352,7 +352,7 @@ final class WC_Gateway_Min_Amount {
 			} else {
 				$message = sprintf(
 					/* translators: 1: gateway name, 2: formatted minimum amount */
-					__( '%1$s requires a minimum cart total of %2$s.', 'wc-gateway-min-amount' ),
+					__( '%1$s requires a minimum cart total of %2$s.', 'payment-gateway-min-amount' ),
 					$title,
 					$min_formatted
 				);
