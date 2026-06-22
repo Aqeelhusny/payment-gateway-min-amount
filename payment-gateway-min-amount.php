@@ -6,19 +6,20 @@
  * Version:     1.0.0
  * Author:      Aqeel Husny
  * Text Domain: payment-gateway-min-amount
- * License:      GPL v2 or later
- * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
+ * License:         GPLv2 or later
+ * License URI:      https://www.gnu.org/licenses/gpl-2.0.html
  * Requires at least: 6.0
- * Requires PHP: 8.0
+ * Requires PHP:     8.0
+ * Requires Plugins: woocommerce
  * WC requires at least: 7.0
- * WC tested up to: 9.x
+ * WC tested up to:  9.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'WCGMA_VERSION',    '1.0.0' );
-define( 'WCGMA_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-define( 'WCGMA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'PGMA_VERSION',    '1.0.0' );
+define( 'PGMA_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+define( 'PGMA_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 /**
  * Declare HPOS compatibility so WooCommerce doesn't flag this plugin.
@@ -29,12 +30,11 @@ add_action( 'before_woocommerce_init', function () {
 	}
 } );
 
-// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- private plugin, not distributed via WP.org
-final class WC_Gateway_Min_Amount {
+final class PGMA_Gateway_Min_Amount {
 
 	private static ?self $instance = null;
 
-	public const OPTION_KEY = 'wcgma_gateway_limits';
+	public const OPTION_KEY = 'pgma_gateway_limits';
 
 	public static function instance(): self {
 		if ( null === self::$instance ) {
@@ -55,7 +55,7 @@ final class WC_Gateway_Min_Amount {
 
 		// Admin
 		add_action( 'admin_menu',              [ $this, 'register_menu' ] );
-		add_action( 'admin_post_wcgma_save',   [ $this, 'handle_save' ] );
+		add_action( 'admin_post_pgma_save',   [ $this, 'handle_save' ] );
 		add_action( 'admin_enqueue_scripts',   [ $this, 'enqueue_admin_assets' ] );
 
 		// Frontend — filter available gateways & inform the customer
@@ -71,7 +71,7 @@ final class WC_Gateway_Min_Amount {
 	// ─── Admin ────────────────────────────────────────────────────────────────
 
 	public function notice_woocommerce_missing(): void {
-		echo '<div class="notice notice-error"><p>'
+		echo '<div class="notice notice-error is-dismissible"><p>'
 			. esc_html__( 'Payment Gateway Minimum Amount requires WooCommerce to be active.', 'payment-gateway-min-amount' )
 			. '</p></div>';
 	}
@@ -82,7 +82,7 @@ final class WC_Gateway_Min_Amount {
 			__( 'Gateway Limits', 'payment-gateway-min-amount' ),
 			__( 'Gateway Limits', 'payment-gateway-min-amount' ),
 			'manage_woocommerce',
-			'wcgma-settings',
+			'pgma-settings',
 			[ $this, 'render_settings_page' ]
 		);
 	}
@@ -96,9 +96,9 @@ final class WC_Gateway_Min_Amount {
 		$limits   = (array) get_option( self::OPTION_KEY, [] );
 		$currency = get_woocommerce_currency_symbol();
 		?>
-		<div class="wrap wcgma-wrap">
+		<div class="wrap pgma-wrap">
 			<h1 class="wp-heading-inline"><?php esc_html_e( 'Payment Gateway Limits', 'payment-gateway-min-amount' ); ?></h1>
-			<p class="wcgma-description">
+			<p class="pgma-description">
 				<?php esc_html_e( 'Set a minimum cart subtotal for each gateway. Leave blank (or 0) for no minimum. Only gateways enabled inside WooCommerce → Payments are shown here.', 'payment-gateway-min-amount' ); ?>
 			</p>
 
@@ -109,10 +109,10 @@ final class WC_Gateway_Min_Amount {
 			<?php endif; ?>
 
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-				<?php wp_nonce_field( 'wcgma_save_settings', 'wcgma_nonce' ); ?>
-				<input type="hidden" name="action" value="wcgma_save">
+				<?php wp_nonce_field( 'pgma_save_settings', 'pgma_nonce' ); ?>
+				<input type="hidden" name="action" value="pgma_save">
 
-				<table class="wp-list-table widefat fixed striped wcgma-table">
+				<table class="wp-list-table widefat fixed striped pgma-table">
 					<thead>
 						<tr>
 							<th class="col-gateway"><?php esc_html_e( 'Payment Gateway', 'payment-gateway-min-amount' ); ?></th>
@@ -144,32 +144,32 @@ final class WC_Gateway_Min_Amount {
 								</td>
 								<td class="col-status">
 									<?php if ( $active ) : ?>
-										<span class="wcgma-badge wcgma-badge--active"><?php esc_html_e( 'Enabled', 'payment-gateway-min-amount' ); ?></span>
+										<span class="pgma-badge pgma-badge--active"><?php esc_html_e( 'Enabled', 'payment-gateway-min-amount' ); ?></span>
 									<?php else : ?>
-										<span class="wcgma-badge wcgma-badge--inactive"><?php esc_html_e( 'Disabled', 'payment-gateway-min-amount' ); ?></span>
+										<span class="pgma-badge pgma-badge--inactive"><?php esc_html_e( 'Disabled', 'payment-gateway-min-amount' ); ?></span>
 									<?php endif; ?>
 								</td>
 								<td class="col-min">
-									<div class="wcgma-amount-wrap">
-										<span class="wcgma-currency"><?php echo esc_html( $currency ); ?></span>
+									<div class="pgma-amount-wrap">
+										<span class="pgma-currency"><?php echo esc_html( $currency ); ?></span>
 										<input
 											type="number"
-											name="wcgma_limits[<?php echo esc_attr( $id ); ?>][min]"
+											name="pgma_limits[<?php echo esc_attr( $id ); ?>][min]"
 											value="<?php echo esc_attr( $min ); ?>"
 											min="0"
 											step="1"
 											placeholder="0"
-											class="wcgma-input-amount small-text"
+											class="pgma-input-amount small-text"
 										>
 									</div>
 								</td>
 								<td class="col-notice">
 									<input
 										type="text"
-										name="wcgma_limits[<?php echo esc_attr( $id ); ?>][notice]"
+										name="pgma_limits[<?php echo esc_attr( $id ); ?>][notice]"
 										value="<?php echo esc_attr( $notice ); ?>"
 										placeholder="<?php esc_attr_e( 'Minimum order is {min} for this method.', 'payment-gateway-min-amount' ); ?>"
-										class="wcgma-input-notice regular-text"
+										class="pgma-input-notice regular-text"
 									>
 									<p class="description">
 										<?php esc_html_e( 'Use {min} to insert the formatted minimum amount.', 'payment-gateway-min-amount' ); ?>
@@ -194,9 +194,9 @@ final class WC_Gateway_Min_Amount {
 			wp_die( esc_html__( 'Unauthorized.', 'payment-gateway-min-amount' ), 403 );
 		}
 
-		check_admin_referer( 'wcgma_save_settings', 'wcgma_nonce' );
+		check_admin_referer( 'pgma_save_settings', 'pgma_nonce' );
 
-		$raw   = isset( $_POST['wcgma_limits'] ) ? (array) $_POST['wcgma_limits'] : []; // phpcs:ignore
+		$raw   = isset( $_POST['pgma_limits'] ) ? (array) $_POST['pgma_limits'] : []; // phpcs:ignore
 		$clean = [];
 
 		foreach ( $raw as $gateway_id => $values ) {
@@ -221,20 +221,20 @@ final class WC_Gateway_Min_Amount {
 		update_option( self::OPTION_KEY, $clean );
 
 		wp_safe_redirect(
-			add_query_arg( [ 'page' => 'wcgma-settings', 'updated' => '1' ], admin_url( 'admin.php' ) )
+			add_query_arg( [ 'page' => 'pgma-settings', 'updated' => '1' ], admin_url( 'admin.php' ) )
 		);
 		exit;
 	}
 
 	public function enqueue_admin_assets( string $hook ): void {
-		if ( $hook !== 'woocommerce_page_wcgma-settings' ) {
+		if ( $hook !== 'woocommerce_page_pgma-settings' ) {
 			return;
 		}
 		wp_enqueue_style(
-			'wcgma-admin',
-			WCGMA_PLUGIN_URL . 'assets/admin.css',
+			'pgma-admin',
+			PGMA_PLUGIN_URL . 'assets/admin.css',
 			[],
-			WCGMA_VERSION
+			PGMA_VERSION
 		);
 	}
 
@@ -372,13 +372,13 @@ final class WC_Gateway_Min_Amount {
 }
 
 /** Singleton accessor */
-function wcgma(): WC_Gateway_Min_Amount {
-	return WC_Gateway_Min_Amount::instance();
+function pgma(): PGMA_Gateway_Min_Amount {
+	return PGMA_Gateway_Min_Amount::instance();
 }
-wcgma();
+pgma();
 
 /** Clean up on uninstall */
-register_uninstall_hook( __FILE__, 'wcgma_uninstall' );
-function wcgma_uninstall(): void {
-	delete_option( WC_Gateway_Min_Amount::OPTION_KEY );
+register_uninstall_hook( __FILE__, 'pgma_uninstall' );
+function pgma_uninstall(): void {
+	delete_option( PGMA_Gateway_Min_Amount::OPTION_KEY );
 }

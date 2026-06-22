@@ -5,6 +5,7 @@ Requires at least: 6.0
 Tested up to:      7.0
 Stable tag:        1.0.0
 Requires PHP:      8.0
+Requires Plugins:  woocommerce
 License:           GPLv2 or later
 License URI:       https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,3 +45,7 @@ It is replaced with the formatted minimum amount in your store currency, e.g. `à
 
 = 1.0.0 =
 * Initial release.
+* Per-gateway minimum cart amount with post-coupon evaluation.
+* Custom customer notice with `{min}` placeholder.
+* Compatible with Classic and Block-based WooCommerce checkout.
+* HPOS (High-Performance Order Storage) compatible.

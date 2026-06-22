@@ -1,27 +1,27 @@
-/* WC Gateway Minimum Amount — Admin Styles */
+/* Payment Gateway Minimum Amount — Admin Styles */
 
-.wcgma-wrap {
+.pgma-wrap {
 	max-width: 1100px;
 }
 
-.wcgma-description {
+.pgma-description {
 	color: #646970;
 	margin-bottom: 1.2em;
 }
 
 /* Table column widths */
-.wcgma-table .col-gateway { width: 22%; }
-.wcgma-table .col-id      { width: 14%; }
-.wcgma-table .col-status  { width: 9%; }
-.wcgma-table .col-min     { width: 18%; }
-.wcgma-table .col-notice  { width: auto; }
+.pgma-table .col-gateway { width: 22%; }
+.pgma-table .col-id      { width: 14%; }
+.pgma-table .col-status  { width: 9%; }
+.pgma-table .col-min     { width: 18%; }
+.pgma-table .col-notice  { width: auto; }
 
-.wcgma-table th {
+.pgma-table th {
 	font-weight: 600;
 }
 
 /* Enabled / Disabled badges */
-.wcgma-badge {
+.pgma-badge {
 	display: inline-block;
 	padding: 2px 8px;
 	border-radius: 3px;
@@ -30,41 +30,41 @@
 	line-height: 1.6;
 }
 
-.wcgma-badge--active {
+.pgma-badge--active {
 	background: #d1fae5;
 	color: #065f46;
 }
 
-.wcgma-badge--inactive {
+.pgma-badge--inactive {
 	background: #f3f4f6;
 	color: #6b7280;
 }
 
 /* Amount input with currency symbol */
-.wcgma-amount-wrap {
+.pgma-amount-wrap {
 	display: flex;
 	align-items: center;
 	gap: 4px;
 }
 
-.wcgma-currency {
+.pgma-currency {
 	font-weight: 600;
 	color: #3c434a;
 	min-width: 16px;
 }
 
-.wcgma-input-amount {
+.pgma-input-amount {
 	width: 100px !important;
 	text-align: right;
 }
 
 /* Notice input */
-.wcgma-input-notice {
+.pgma-input-notice {
 	width: 100% !important;
 	max-width: 420px;
 }
 
-.wcgma-table .description {
+.pgma-table .description {
 	font-size: 11px;
 	color: #8c8f94;
 	margin: 4px 0 0;
